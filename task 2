@@ -1,0 +1,77 @@
+#TASK:2
+#Stock Portfila Tracker
+
+Requirements:
+
+You need to install yfinance to fetch real-time stock prices:
+
+pip install yfinance
+
+Stock Portfolio Tracker Code:
+
+import yfinance as yf
+
+class Stock:
+    def _init_(self, ticker, shares):
+        self.ticker = ticker.upper()
+        self.shares = shares
+
+    def current_price(self):
+        # Get the current price using yfinance
+        stock_data = yf.Ticker(self.ticker)
+        price = stock_data.history(period="1d")['Close'][0]
+        return price
+
+    def value(self):
+        # Calculate the current value of the stock in the portfolio
+        return self.shares * self.current_price()
+
+class Portfolio:
+    def _init_(self):
+        self.stocks = {}
+
+    def add_stock(self, ticker, shares):
+        if ticker in self.stocks:
+            self.stocks[ticker].shares += shares
+        else:
+            self.stocks[ticker] = Stock(ticker, shares)
+        print(f"Added {shares} shares of {ticker}.")
+
+    def remove_stock(self, ticker, shares):
+        if ticker in self.stocks and self.stocks[ticker].shares >= shares:
+            self.stocks[ticker].shares -= shares
+            print(f"Removed {shares} shares of {ticker}.")
+            if self.stocks[ticker].shares == 0:
+                del self.stocks[ticker]
+        else:
+            print("Not enough shares to remove or stock not in portfolio.")
+
+    def portfolio_value(self):
+        total_value = 0
+        for stock in self.stocks.values():
+            total_value += stock.value()
+        return total_value
+
+    def display_portfolio(self):
+        print("\nCurrent Portfolio:")
+        for ticker, stock in self.stocks.items():
+            print(f"{ticker}: {stock.shares} shares, Current Value: ${stock.value():.2f}")
+        print(f"Total Portfolio Value: ${self.portfolio_value():.2f}\n")
+
+# Usage Example
+if _name_ == "_main_":
+    portfolio = Portfolio()
+
+    # Add stocks to portfolio
+    portfolio.add_stock('AAPL', 10)  # 10 shares of Apple
+    portfolio.add_stock('GOOGL', 5)  # 5 shares of Google
+    portfolio.add_stock('TSLA', 2)   # 2 shares of Tesla
+
+    # Display portfolio
+    portfolio.display_portfolio()
+
+    # Remove stock
+    portfolio.remove_stock('AAPL', 5)
+
+    # Display updated portfolio
+    portfolio.display_portfolio()
