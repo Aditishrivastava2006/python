@@ -1,0 +1,31 @@
+# TASK:3
+# Basic Chatbox:
+
+def chat():
+    print("Chatbot: Hi there! I'm your friendly chatbot. How can I help you today?")
+    
+    while True:
+        user_input = input("You: ").lower()
+
+        if "hello" in user_input or "hi" in user_input:
+            print("Chatbot: Hello! How can I assist you?")
+        
+        elif "how are you" in user_input:
+            print("Chatbot: I'm just a program, but I'm functioning as expected! How about you?")
+        
+        elif "bye" in user_input or "exit" in user_input:
+            print("Chatbot: Goodbye! Have a great day!")
+            break
+
+        elif "your name" in user_input:
+            print("Chatbot: I'm a basic chatbot created to chat with you.")
+        
+        elif "help" in user_input:
+            print("Chatbot: I'm here to chat with you. Try saying 'hello', ask me 'how are you', or just say 'bye' to exit.")
+
+        else:
+            print("Chatbot: Sorry, I didn't understand that. Can you please rephrase?")
+
+# Start the chat
+if _name_ == "_main_":
+    chat()
